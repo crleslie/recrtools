@@ -1,0 +1,18 @@
+Package: recrtools
+Type: Package
+Title: Tools for Recreation and Visitation Data Analysis
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Colin", "Leslie",
+      email = "lesliec@bouldercolorado.gov",
+      role = c("aut", "cre")
+    )
+ )
+Description: A collection of functions to streamline the analysis of recreation
+    and visitation data. This includes tools for reading and processing TRAFx
+    ShuttleFiles, handling trail and vehicle counts, and managing survey datasets.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.3
