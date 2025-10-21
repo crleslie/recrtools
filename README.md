@@ -7,7 +7,7 @@
 **recrtools** is an R package for researchers and land managers working with outdoor recreation data.\
 It provides streamlined tools for **cleaning, formatting, and analyzing recreation monitoring data**, including automated processing of **trail counters**, **vehicle counts**, and **visitation datasets**.
 
-The initial release focuses on working with **TRAFx ShuttleFiles**—reading, cleaning, and correcting timestamps for daylight saving time (DST).
+The initial release focuses on working with **TRAFx ShuttleFiles** including reading, cleaning, and correcting timestamps for daylight saving time (DST).
 
 Future updates will extend support for other data sources and formats used in recreation monitoring and visitor use management.
 
