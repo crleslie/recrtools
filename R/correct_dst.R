@@ -2,7 +2,8 @@
 #'
 #' Adjusts timestamps in TRAFx ShuttleFiles for DST changes (spring or fall).
 #' Automatically computes the DST change date for the specified year and optionally
-#' skips files that do not span the DST change.
+#' skips files that do not span the DST change. Skips files that have already been processed
+#' that contain "_DST_Corrected" in the filename.
 #'
 #' @param path Character. Path to a single ShuttleFile (.txt) or a folder of files.
 #' @param direction Character. Either "begin" to advance 1 hour (spring forward)
@@ -33,10 +34,16 @@ correct_dst <- function(path,
 
   # Determine files and default output folder
   if (dir.exists(path)) {
-    files <- list.files(path, pattern = "\\.txt$", full.names = TRUE)
+    files <- list.files(path, pattern = "\\.txt$", full.names = TRUE, ignore.case = TRUE)
+    # Exclude already corrected files
+    files <- files[!grepl("_DST_Corrected", basename(files), ignore.case = TRUE)]
     out_dir <- if (is.null(output_dir)) file.path(path, "dst_corrected") else output_dir
   } else if (file.exists(path)) {
     files <- path
+    # Skip if single file already corrected
+    if (grepl("_DST_Corrected", basename(files), ignore.case = TRUE)) {
+      stop("File already appears DST-corrected: ", files)
+    }
     out_dir <- if (is.null(output_dir)) file.path(dirname(path), "dst_corrected") else output_dir
   } else {
     stop("`path` must be a valid file or directory.")
@@ -54,19 +61,23 @@ correct_dst <- function(path,
   }
   dst_change <- as.POSIXct(paste(dst_date, "02:00:00"))
 
+  # Track processed files
+  processed <- 0
+
   lapply(files, function(file) {
     raw <- scan(file, what = "character", sep = "\n", blank.lines.skip = FALSE, quiet = TRUE)
     type <- ifelse(grepl("^[0-9]", raw), "record", "meta")
-
-    # Extract timestamps for records
     dateTime <- as.POSIXct(ifelse(type == "record", substr(raw, 1, 14), NA),
                            format = "%y-%m-%d,%H:%M")
 
     # Safety check: skip files without DST change
     if (skip_no_change && !any(dateTime == dst_change, na.rm = TRUE)) {
-      message("Skipping file (no timestamps at or after DST change): ", basename(file))
+      message("Skipping file (no timestamps matching DST change): ", basename(file))
       return(NULL)
     }
+
+    # Increment counter for processed files
+    processed <<- processed + 1
 
     # Counts
     count1 <- ifelse(type == "record", substr(raw, 16, 20), NA)
@@ -89,6 +100,10 @@ correct_dst <- function(path,
     writeLines(shuttleOut, file.path(out_dir, paste0(file_name, "_DST_Corrected.txt")))
   })
 
-  message("DST-corrected files written to: ", out_dir)
-  invisible(NULL)
+  # Only print final message if any files were processed
+  if (processed > 0) {
+    message("DST-corrected files written to: ", out_dir)
+  } else {
+    message("No files were processed; all files skipped due to DST check.")
+  }
 }

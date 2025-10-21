@@ -30,7 +30,8 @@ NULL. Writes corrected ShuttleFiles to the specified output folder.
 \description{
 Adjusts timestamps in TRAFx ShuttleFiles for DST changes (spring or fall).
 Automatically computes the DST change date for the specified year and optionally
-skips files that do not span the DST change.
+skips files that do not span the DST change. Skips files that have already been processed
+that contain "_DST_Corrected" in the filename.
 }
 \examples{
 \dontrun{
