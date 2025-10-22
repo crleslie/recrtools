@@ -1,8 +1,6 @@
 ------------------------------------------------------------------------
 
-# recrtools <img src="https://img.shields.io/badge/R-package-orange" alt="R package badge"/>
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+# recrtools <img src="https://img.shields.io/badge/R-package-orange" alt="R package badge"/> &nbsp; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
 **recrtools** is an R package for researchers and land managers working with outdoor recreation data.\
 It provides streamlined tools for **cleaning, formatting, and analyzing recreation monitoring data**, including automated processing of **trail counters**, **vehicle counts**, and **visitation datasets**.
