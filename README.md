@@ -106,7 +106,7 @@ survey
 ## 📚 Tutorials & Guides
 
 -   [ShuttleFile workflow](vignettes/shuttlefile_workflow.Rmd)
--   [Survey recoding with dictionaries](vignettes/survey_recode.Rmd)
+-   [Survey recoding with dictionaries](vignettes/recode_by_dict.Rmd)
 -   [Project folder structure](docs/folder_structure.md)
 -   [Data dictionary](docs/data_dictionary.md)
 -   [Contribution guidelines](docs/contributing.md)
