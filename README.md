@@ -36,7 +36,7 @@ Future updates will extend support for other data sources and formats used in re
 
 ``` r
 # install.packages("remotes") # if not already installed
-remotes::install_github("yourusername/recrtools")
+remotes::install_github("crleslie/recrtools")
 library(recrtools)
 ```
 
