@@ -28,6 +28,8 @@ Future updates will extend support for other data sources and formats used in re
 
 -   Includes **example ShuttleFiles** for quick testing and reproducibility
 
+-   **Dictionary-based recoding** for survey “Other” responses
+
 ------------------------------------------------------------------------
 
 ## 📦 Installation
@@ -67,6 +69,47 @@ header <- data$header
 ``` r
 correct_dst("data/trafx_downloads/", direction = "begin", year = 2024)
 ```
+
+### Dictionary-based recoding for survey “Other” responses
+
+``` r
+library(dplyr)
+
+survey <- tibble(
+  activity_select = c("Biking", "Other", "Other", "Running", "Other"),
+  activity_other_text = c(NA, "mountain biking", "trail run with dog", NA, "skateboarding")
+)
+
+# Define a dictionary mapping categories to keywords
+dict <- list(
+  biking  = c("bike", "biking", "cycling"),
+  running = c("run", "running")
+)
+
+# Apply recoding
+survey <- survey %>%
+  mutate(activity_recoded = recode_by_dict(activity_select, activity_other_text, dict))
+
+survey
+```
+
+| activity_select | activity_other_text | activity_recoded |
+|-----------------|---------------------|------------------|
+| Biking          | NA                  | biking           |
+| Other           | mountain biking     | biking           |
+| Other           | trail run with dog  | running          |
+| Running         | NA                  | running          |
+| Other           | skateboarding       | other            |
+
+------------------------------------------------------------------------
+
+## 📚 Tutorials & Guides
+
+-   [ShuttleFile workflow](vignettes/shuttlefile_workflow.Rmd)
+-   [Survey recoding with dictionaries](vignettes/survey_recode.Rmd)
+-   [Project folder structure](docs/folder_structure.md)
+-   [Data dictionary](docs/data_dictionary.md)
+-   [Contribution guidelines](docs/contributing.md)
 
 ------------------------------------------------------------------------
 

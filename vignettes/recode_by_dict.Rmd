@@ -1,0 +1,121 @@
+---
+title: "Recoding Survey 'Other' Responses with recrtools"
+author: "Your Name"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Recoding Survey 'Other' Responses}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(stringr)
+library(recrtools)
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Overview
+
+Many surveys include "Other" text fields where respondents can write in free-form answers. These responses are often inconsistent, messy, or use multiple terms for the same concept.
+
+The `recode_by_dict()` function in **recrtools** helps standardize these responses by applying a **dictionary-based recoding**.
+
+---
+
+# Example: Activity Recoding
+
+Suppose we have a survey with a multiple-choice activity question and an "Other" text field.
+
+```{r}
+survey <- tibble(
+  response_id = 1:8,
+  activity_select = c("Biking", "Hiking", "Other", "Other", "Other", "Running", "Other", "Biking"),
+  activity_other_text = c(
+    NA, "777",
+    "mountain biking", 
+    "road cycling", 
+    "trail run with dog",
+    NA,
+    "walking dog", 
+    NA
+  )
+)
+```
+
+We also define a dictionary mapping common terms to **standardized categories**:
+
+```{r}
+dict <- list(
+  biking  = c("bike", "biking", "cycling"),
+  running = c("run", "running", "yog"),
+  hiking  = c("hike", "walk", "stroll")
+)
+```
+
+------------------------------------------------------------------------
+
+# Applying `recode_by_dict()`
+
+You can apply the dictionary to the survey data, combining the choice selection with the "Other" text field:
+
+```{r}
+survey <- survey %>%
+  mutate(
+    activity_recoded = recode_by_dict(
+      select_col = activity_select,
+      other_col  = activity_other_text,
+      dict       = dict
+    )
+  )
+
+survey
+```
+
+The function will:
+
+1.  Take the value from `activity_select` unless it is `"Other"`.
+2.  Otherwise, it will search `activity_other_text` for matches in the dictionary.
+3.  Return a standardized category or `NA` if no match is found.
+
+------------------------------------------------------------------------
+
+# Handling Survey Edge Cases
+
+-   Responses like `"777"` or empty strings are treated as missing values (`NA`).
+-   The dictionary matching is **case-insensitive**.
+-   Word-boundary matching ensures that partial matches do not misclassify responses:
+
+``` r
+# Example: "bar" does not match "bark"
+dict <- list(
+  restaurant_dining = c("restaurant", "dining", "coffee shop", "bar")
+)
+
+recode_by_dict("Other", "great bark dog park", dict)
+# Returns NA
+```
+
+-   If no dictionary key matches, you can modify the function to return `"other"` instead of `NA`:
+
+``` r
+# Modify recode_text() inside recode_by_dict to return "other" if unmatched
+```
+
+------------------------------------------------------------------------
+
+# Integrating into `dplyr` Workflows
+
+`recode_by_dict()` is **vectorized**, so it works seamlessly with `mutate()`:
+
+```{r}
+# Suppose we have multiple "Other" columns to recode
+survey <- survey %>%
+  mutate(
+    activity_recoded = recode_by_dict(
+      activity_select,
+      activity_other_text,
+      dict)
+    )
+```
+
+This makes it easy to implement recoded questions in a dplyr pipeline. Optionally mutating to a new column with suffix `"_recoded"` allows for side-by-side comparison of columns, or the source column can be specified to overwrite raw values.
