@@ -1,6 +1,7 @@
 ---
-title: "Recoding Survey 'Other' Responses with recrtools"
-author: "Your Name"
+title: "Recoding Survey 'Other' Responses"
+author: "Colin Leslie"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Recoding Survey 'Other' Responses}
@@ -75,7 +76,7 @@ The function will:
 
 1.  Take the value from `activity_select` unless it is `"Other"`.
 2.  Otherwise, it will search `activity_other_text` for matches in the dictionary.
-3.  Return a standardized category or `NA` if no match is found.
+3.  Return a standardized category if a match is found, or carry forward `"other"` if no match is found.
 
 ------------------------------------------------------------------------
 
@@ -92,7 +93,7 @@ dict <- list(
 )
 
 recode_by_dict("Other", "great bark dog park", dict)
-# Returns NA
+# Returns "other"
 ```
 
 -   If no dictionary key matches, you can modify the function to return `"other"` instead of `NA`:
