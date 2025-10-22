@@ -103,7 +103,7 @@ an “Other” text field.</p>
 <span>  activity_other_text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="cn">NA</span>, <span class="st">"777"</span>,</span>
 <span>    <span class="st">"mountain biking"</span>, </span>
-<span>    <span class="st">"road cycling"</span>, </span>
+<span>    <span class="st">"crosscountry ski"</span>, </span>
 <span>    <span class="st">"trail run with dog"</span>,</span>
 <span>    <span class="cn">NA</span>,</span>
 <span>    <span class="st">"walking dog"</span>, </span>
@@ -116,7 +116,7 @@ an “Other” text field.</p>
 <code class="sourceCode R"><span><span class="va">dict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  biking  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bike"</span>, <span class="st">"biking"</span>, <span class="st">"cycling"</span><span class="op">)</span>,</span>
 <span>  running <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"run"</span>, <span class="st">"running"</span>, <span class="st">"yog"</span><span class="op">)</span>,</span>
-<span>  hiking  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hike"</span>, <span class="st">"walk"</span>, <span class="st">"stroll"</span><span class="op">)</span></span>
+<span>  hiking  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hike"</span>, <span class="st">"walk"</span>, <span class="st">"walking"</span>, <span class="st">"stroll"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -142,10 +142,10 @@ selection with the “Other” text field:</p>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>           1 Biking          <span style="color: #BB0000;">NA</span>                  biking          </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">2</span>           2 Hiking          777                 hiking          </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">3</span>           3 Other           mountain biking     biking          </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>           4 Other           road cycling        biking          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span>           4 Other           crosscountry ski    other           </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span>           5 Other           trail run with dog  running         </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span>           6 Running         <span style="color: #BB0000;">NA</span>                  running         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span>           7 Other           walking dog         other           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span>           7 Other           walking dog         hiking          </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">8</span>           8 Biking          <span style="color: #BB0000;">NA</span>                  biking</span></span></code></pre>
 <p>The function will:</p>
 <ol style="list-style-type: decimal">
@@ -177,11 +177,10 @@ misclassify responses:</li>
 <span><span class="fu"><a href="../reference/recode_by_dict.html">recode_by_dict</a></span><span class="op">(</span><span class="st">"Other"</span>, <span class="st">"great bark dog park"</span>, <span class="va">dict</span><span class="op">)</span></span>
 <span><span class="co"># Returns "other"</span></span></code></pre></div>
 <ul>
-<li>If no dictionary key matches, you can modify the function to return
-<code>"other"</code> instead of <code>NA</code>:</li>
+<li>If no dictionary key matches, the function returns
+<code>"other"</code>
+</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Modify recode_text() inside recode_by_dict to return "other" if unmatched</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -189,7 +188,7 @@ misclassify responses:</li>
 </h2>
 <p><code><a href="../reference/recode_by_dict.html">recode_by_dict()</a></code> is <strong>vectorized</strong>, so it
 works seamlessly with <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Suppose we have multiple "Other" columns to recode</span></span>
 <span><span class="va">survey</span> <span class="op">&lt;-</span> <span class="va">survey</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>

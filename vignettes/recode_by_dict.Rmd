@@ -34,7 +34,7 @@ survey <- tibble(
   activity_other_text = c(
     NA, "777",
     "mountain biking", 
-    "road cycling", 
+    "crosscountry ski", 
     "trail run with dog",
     NA,
     "walking dog", 
@@ -49,7 +49,7 @@ We also define a dictionary mapping common terms to **standardized categories**:
 dict <- list(
   biking  = c("bike", "biking", "cycling"),
   running = c("run", "running", "yog"),
-  hiking  = c("hike", "walk", "stroll")
+  hiking  = c("hike", "walk", "walking", "stroll")
 )
 ```
 
@@ -96,11 +96,7 @@ recode_by_dict("Other", "great bark dog park", dict)
 # Returns "other"
 ```
 
--   If no dictionary key matches, you can modify the function to return `"other"` instead of `NA`:
-
-``` r
-# Modify recode_text() inside recode_by_dict to return "other" if unmatched
-```
+-   If no dictionary key matches, the function returns `"other"`
 
 ------------------------------------------------------------------------
 
