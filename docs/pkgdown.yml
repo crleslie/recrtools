@@ -2,5 +2,6 @@ pandoc: '3.4'
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
+  read_TRAFx_shuttlefile: read_TRAFx_shuttlefile.html
   recode_by_dict: recode_by_dict.html
-last_built: 2025-10-22T22:04Z
+last_built: 2025-10-28T22:00Z

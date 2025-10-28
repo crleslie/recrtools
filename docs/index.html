@@ -50,6 +50,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/read_TRAFx_shuttlefile.html">Read data from TRAFx shuttlefiles</a>
+    </li>
+    <li>
       <a href="articles/recode_by_dict.html">Recoding Survey 'Other' Responses</a>
     </li>
   </ul>
@@ -212,13 +215,23 @@ It provides streamlined tools for <strong>cleaning, formatting, and analyzing re
 <hr>
 </div>
 <div class="section level2">
-<h2 id="id_-folder-structure-recommendation">🛠 Folder Structure Recommendation<a class="anchor" aria-label="anchor" href="#id_-folder-structure-recommendation"></a>
+<h2 id="id_-using-an-ide-and-folder-structure">🛠 Using an IDE and Folder Structure<a class="anchor" aria-label="anchor" href="#id_-using-an-ide-and-folder-structure"></a>
 </h2>
+<p>Using an Integrated Development Environment (IDE) rather than simply running scripts in base R will greatly improve your workflow and user experience. <strong>RStudio</strong> is a popular IDE — it’s the one I personally use — and it allows you to create and manage RStudio Projects.</p>
+<p>A project is a collection of files for an analysis or data task that are organized into a single folder, with a file named <code>YourProjectName.Rproj</code>. When you open a project, RStudio automatically sets the working directory to the project’s root folder and opens a dedicated environment that keeps your scripts, data, and objects organized during your session.</p>
+<p>Setting the working directory to the root folder means you can define file paths <strong>relative to the project root</strong> (e.g., <code>"data/filename.csv"</code>) rather than using a full absolute path (e.g., <code>"C:/Users/.../filename.csv"</code>). This makes your project more portable — you can move it, open it from different computers, or share it with colleagues without breaking your file paths.</p>
+<p>To keep your work organized and reproducible, adopt a consistent folder structure. The example below is based on guidance from <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510" class="external-link">Good enough practices for scientific computing (Wilson et al., 2017)</a>, which provides practical advice for organizing research code and data:</p>
 <pre><code>TrailCounterProject/
-├── data/               # raw ShuttleFiles and input data
-├── results/            # processed outputs
-├── scripts/            # scripts and functions
-└── docs/               # documentation or reports</code></pre>
+├── data/                     # raw ShuttleFiles and input data
+├── results/                  # processed outputs and intermediate files
+├── scripts/                  # scripts and functions
+├── docs/                     # documentation or reports
+└── TrailCounterProject.Rproj # RStudio project file</code></pre>
+<p>This structure separates inputs, processing, and outputs, making it easy to see where each type of file belongs. Keeping your raw data in one place (data folder) — and treating it as read-only — helps preserve data integrity.</p>
+<p>A few practical tips: - Use <strong>relative paths</strong> (e.g., <code>"data/filename.csv"</code>) to keep your project portable.<br>
+- Give scripts and files <strong>clear, consistent names</strong> (e.g., <code>clean_counts.R</code>, <code>summarize_daily_visits.R</code>).<br>
+- Store both <strong>scripts</strong> and <strong>functions</strong> in the <code>scripts/</code> folder — functions can either live in separate helper files or at the top of your main scripts. Annotate your scripts. Your future self will thank you. - Store processed data (e.g., <code>"hourly_counts.csv"</code>, <code>"hourly_counts.RDS"</code> files) and graphical ouputs (plots) in <code>results/</code> - Keep notes, figures, or write-ups in the <code>docs/</code> folder to keep your analysis and reporting connected.</p>
+<p>With this setup, you can simply open the <code>.Rproj</code> file in RStudio to get started — your working directory, environment, and paths will all be configured automatically.</p>
 <hr>
 </div>
 <div class="section level2">
@@ -226,6 +239,11 @@ It provides streamlined tools for <strong>cleaning, formatting, and analyzing re
 </h2>
 <p>Contributions, suggestions, and bug reports are welcome! Open an issue or submit a pull request on <a href="https://github.com/crleslie/recrtools" class="external-link">GitHub</a>.</p>
 <hr>
+</div>
+<div class="section level2">
+<h2 id="page_facing_up-references">📄 References<a class="anchor" aria-label="anchor" href="#page_facing_up-references"></a>
+</h2>
+<p>Wilson, G., Bryan, J., Cranston, K., Kitzes, J., Nederbragt, L., &amp; Teal, T. K. (2017). Good enough practices in scientific computing. <em>PLOS Computational Biology, 13</em>(6), e1005510. <a href="https://doi.org/10.1371/journal.pcbi.1005510" class="external-link uri">https://doi.org/10.1371/journal.pcbi.1005510</a></p>
 </div>
 </div>
 
