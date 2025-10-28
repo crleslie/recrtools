@@ -116,7 +116,7 @@ read_shuttlefile <- function(
       path,
       pattern = "\\.txt$",
       full.names = TRUE,
-      recursive = TRUE,
+      recursive = FALSE,
       ignore.case = TRUE
       )
   } else if (file.exists(path)) {
