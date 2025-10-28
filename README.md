@@ -133,11 +133,12 @@ TrailCounterProject/
 
 This structure separates inputs, processing, and outputs, making it easy to see where each type of file belongs. Keeping your raw data in one place (data folder) — and treating it as read-only — helps preserve data integrity.
 
-A few practical tips: - Use **relative paths** (e.g., `"data/filename.csv"`) to keep your project portable.
+A few practical tips: 
 
--   Give scripts and files **clear, consistent names** (e.g., `clean_counts.R`, `summarize_daily_visits.R`).
--   Store both **scripts** and **functions** in the `scripts/` folder — functions can either live in separate helper files or at the top of your main scripts. Annotate your scripts. Your future self will thank you.
--   Store processed data (e.g., `"hourly_counts.csv"`, `"hourly_counts.RDS"` files) and graphical ouputs (plots) in `results/` - Keep notes, figures, or write-ups in the `docs/` folder to keep your analysis and reporting connected.
+- Use **relative paths** (e.g., `"data/filename.csv"`) to keep your project portable.
+- Give scripts and files **clear, consistent names** (e.g., `clean_counts.R`, `summarize_daily_visits.R`).
+- Store both **scripts** and **functions** in the `scripts/` folder — functions can either live in separate helper files or at the top of your main scripts. Annotate your scripts. Your future self will thank you.
+- Store processed data (e.g., `"hourly_counts.csv"`, `"hourly_counts.RDS"` files) and graphical ouputs (plots) in `results/` - Keep notes, figures, or write-ups in the `docs/` folder to keep your analysis and reporting connected.
 
 With this setup, you can simply open the `.Rproj` file in RStudio to get started — your working directory, environment, and paths will all be configured automatically.
 
