@@ -228,9 +228,12 @@ It provides streamlined tools for <strong>cleaning, formatting, and analyzing re
 ├── docs/                     # documentation or reports
 └── TrailCounterProject.Rproj # RStudio project file</code></pre>
 <p>This structure separates inputs, processing, and outputs, making it easy to see where each type of file belongs. Keeping your raw data in one place (data folder) — and treating it as read-only — helps preserve data integrity.</p>
-<p>A few practical tips: - Use <strong>relative paths</strong> (e.g., <code>"data/filename.csv"</code>) to keep your project portable.<br>
-- Give scripts and files <strong>clear, consistent names</strong> (e.g., <code>clean_counts.R</code>, <code>summarize_daily_visits.R</code>).<br>
-- Store both <strong>scripts</strong> and <strong>functions</strong> in the <code>scripts/</code> folder — functions can either live in separate helper files or at the top of your main scripts. Annotate your scripts. Your future self will thank you. - Store processed data (e.g., <code>"hourly_counts.csv"</code>, <code>"hourly_counts.RDS"</code> files) and graphical ouputs (plots) in <code>results/</code> - Keep notes, figures, or write-ups in the <code>docs/</code> folder to keep your analysis and reporting connected.</p>
+<p>A few practical tips: - Use <strong>relative paths</strong> (e.g., <code>"data/filename.csv"</code>) to keep your project portable.</p>
+<ul>
+<li>Give scripts and files <strong>clear, consistent names</strong> (e.g., <code>clean_counts.R</code>, <code>summarize_daily_visits.R</code>).</li>
+<li>Store both <strong>scripts</strong> and <strong>functions</strong> in the <code>scripts/</code> folder — functions can either live in separate helper files or at the top of your main scripts. Annotate your scripts. Your future self will thank you.</li>
+<li>Store processed data (e.g., <code>"hourly_counts.csv"</code>, <code>"hourly_counts.RDS"</code> files) and graphical ouputs (plots) in <code>results/</code> - Keep notes, figures, or write-ups in the <code>docs/</code> folder to keep your analysis and reporting connected.</li>
+</ul>
 <p>With this setup, you can simply open the <code>.Rproj</code> file in RStudio to get started — your working directory, environment, and paths will all be configured automatically.</p>
 <hr>
 </div>
