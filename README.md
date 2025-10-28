@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------
 
-# recrtools <img src="https://img.shields.io/badge/R-package-orange" alt="R package badge"/> &nbsp; [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+# recrtools <img src="https://img.shields.io/badge/R-package-orange" alt="R package badge"/>   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
 **recrtools** is an R package for researchers and land managers working with outdoor recreation data.\
 It provides streamlined tools for **cleaning, formatting, and analyzing recreation monitoring data**, including automated processing of **trail counters**, **vehicle counts**, and **visitation datasets**.
@@ -114,6 +114,12 @@ Planned additions include:
 
 ## 🛠 Folder Structure Recommendation
 
+Using an Integrated Development Environment (IDE) rather than simply using base R will greatly improve your user experience. RStudio is popular IDE - it is the one I personally use - and allows you to create and manage RStudio projects. A project is a collection of files for an analysis or data task that are organized into a single folder, with a `NAME_OF_PROJECT.Rproj` file. When you open a project, RStudio sets the working directory to the root folder of the project and opens the project environment that organizes all your project objects (variables, functions, etc.) during a session. 
+
+Setting the working directory to the root folder allows you to define the file path for reading and writing data relative to the root, rather than required the full absolute path all the way back to your drive letter. This makes it much easier to move your project around, open it from multiple computers, and collaborate with other colleagues if you are working from a shared file server environment. 
+
+To organize your project files, I highly recommend adopting a standard folder structure, such as the one below. This structure is based on one of my favorite article of all time - for both content and the title: [Good enough practices in scientific computing (Wilson et al., 2017)](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
+
 ```         
 TrailCounterProject/
 ├── data/               # raw ShuttleFiles and input data
@@ -129,3 +135,7 @@ TrailCounterProject/
 Contributions, suggestions, and bug reports are welcome! Open an issue or submit a pull request on [GitHub](https://github.com/crleslie/recrtools).
 
 ------------------------------------------------------------------------
+
+## 📄 References
+
+Wilson, G., Bryan, J., Cranston, K., Kitzes, J., Nederbragt, L., & Teal, T. K. (2017). Good enough practices in scientific computing. *PLOS Computational Biology, 13*(6), e1005510. <https://doi.org/10.1371/journal.pcbi.1005510>
