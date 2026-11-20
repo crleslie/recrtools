@@ -1,21 +1,44 @@
 #' Recode "Other" responses in a survey column using a dictionary
 #'
-#' This function handles a standard survey pattern: a primary select one column with an "Other" option,
-#' and a free-text column with "other" responses. It applies a dictionary-based recoding for any text
-#' responses and standardizes the final output.
+#' Handles a standard survey pattern: a select-one or select-multiple column
+#' with an "Other" option, plus a free-text column holding the write-in
+#' response. Select-multiple answers are a delimited string, e.g.
+#' `"biking, other, hiking"`.
 #'
-#' @param select_col Character vector. The primary selected option (may include "Other").
-#' @param other_col Character vector. The free-text responses for "Other" answers.
-#' @param dict Named list. Dictionary mapping category names to keywords for recoding.
-#' @param na_values Character or numeric vector. Values that should be treated as NA (default: c("777", 777, NA)).
+#' When "Other" is selected and the write-in matches the dictionary, "other" is
+#' replaced by the matched category. If there is no match, or the write-in is
+#' blank/NA, "other" is kept. Duplicates created by the replacement are removed.
 #'
-#' @return A character vector of recoded responses.
+#' Dictionary terms are matched as whole words or phrases, case-insensitively.
+#' Terms are treated as regular expressions, so escape special characters such
+#' as `(`, `)` and `.`. The first matching category in dictionary order wins, so
+#' list more specific categories first.
+#'
+#' @param select_col Character vector. The selected option(s). For select-one
+#'   questions a single value; for select-multiple questions a delimited string
+#'   (see `sep`). May include "Other".
+#' @param other_col Character vector. The free-text write-in responses
+#'   for "Other" answers.
+#' @param dict Named list. Dictionary mapping category names to character
+#'   vectors of terms used for recoding.
+#' @param na_values Character or numeric vector. Write-in values that are not
+#'   recoded and are returned as-is (default: `c("777", 777, NA)`).
+#' @param sep Character. Delimiter separating selections in `select_col`
+#'   (default: `","`).
+#' @param collapse Character. Delimiter used to join selections in the output
+#'   (default: same as `sep`, with no added space).
+#'
+#' @return A character vector the same length as `select_col`. Select-one rows
+#'   return a single category; select-multiple rows return the selections
+#'   joined with `collapse`, with "other" replaced where a match was found.
 #'
 #' @examples
-#' survey <- tibble(
-#'   response_id = 1:5,
-#'   activity_select = c("biking", "hiking", "other", "other", "running"),
-#'   activity_other_text = c(NA, NA, "mountain biking", "trail run", NA)
+#' survey <- dplyr::tibble(
+#'   response_id = 1:6,
+#'   activity_select = c("biking", "hiking", "other", "other", "running",
+#'                       "hiking, other"),
+#'   activity_other_text = c(NA, NA, "mountain biking", "trail run", NA,
+#'                           "morning jog")
 #' )
 #'
 #' dict <- list(
@@ -24,8 +47,10 @@
 #'   hiking = c("hike", "walk", "stroll")
 #' )
 #'
-#' survey <- survey %>%
-#'   mutate(auto_recode = recode_other(activity_select, activity_other_text, dict))
+#' survey |>
+#'   dplyr::mutate(
+#'     auto_recode = recode_by_dict(activity_select, activity_other_text, dict)
+#'   )
 #'
 #' @export
 
@@ -42,7 +67,7 @@ recode_by_dict <- function(select_col, other_col, dict,
 
     x <- tolower(x)
     for (key in names(dict)) {
-      pattern <- paste0("\\b(", paste(dict[[key]], collapse = "|"), ")\\b")
+      pattern <- stringr::regex(paste0("\\b(", paste(dict[[key]], collapse = "|"), ")\\b"), ignore_case = TRUE)
       if (stringr::str_detect(x, pattern)) return(key)
     }
     return("other")
