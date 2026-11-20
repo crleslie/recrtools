@@ -4,7 +4,14 @@
 \alias{recode_by_dict}
 \title{Recode "Other" responses in a survey column using a dictionary}
 \usage{
-recode_by_dict(select_col, other_col, dict, na_values = c("777", 777, NA))
+recode_by_dict(
+  select_col,
+  other_col,
+  dict,
+  na_values = c("777", 777, NA),
+  sep = ",",
+  collapse = paste0(sep)
+)
 }
 \arguments{
 \item{select_col}{Character vector. The primary selected option (may include "Other").}
