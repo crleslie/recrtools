@@ -29,9 +29,14 @@
 #'
 #' @export
 
-recode_by_dict <- function(select_col, other_col, dict, na_values = c("777", 777, NA)) {
+recode_by_dict <- function(select_col, other_col, dict,
+                           na_values = c("777", 777, NA),
+                           sep = ",",
+                           collapse = paste0(sep)) {
 
-  # Vectorized function for dictionary recoding
+  # Dictionary recoding of a single write-in string.
+  # Returns the matching dict key, "other" if nothing matches,
+  # or the original value if it is NA / blank / a na_value.
   recode_text <- function(x) {
     if (is.na(x) || x %in% na_values || stringr::str_trim(x) == "") return(x)
 
@@ -43,15 +48,32 @@ recode_by_dict <- function(select_col, other_col, dict, na_values = c("777", 777
     return("other")
   }
 
-  # Apply logic: if select_col != "Other", take it; else recode other_col
   vapply(seq_along(select_col), function(i) {
     sel <- select_col[i]
     oth <- other_col[i]
 
-    if (!is.na(sel) && tolower(sel) != "other") {
-      tolower(sel)
-    } else {
-      recode_text(oth)
+    # Missing selection: fall back to recoding the write-in (original behavior)
+    if (is.na(sel)) return(as.character(recode_text(oth)))
+
+    # Split the (possibly comma separated) selection list into tokens
+    tokens <- trimws(strsplit(as.character(sel), sep, fixed = TRUE)[[1]])
+    tokens <- tolower(tokens[tokens != ""])
+    is_other <- tokens == "other"
+
+    # No "other" selected: just return the (normalized) selections
+    if (!any(is_other)) return(paste(tokens, collapse = collapse))
+
+    # Single select where "other" is the only choice (original behavior)
+    if (length(tokens) == 1) return(as.character(recode_text(oth)))
+
+    # Select multiple: swap "other" for the matched category, if there is one.
+    # If there is no match (or no usable write-in), "other" stays in the list.
+    new_val <- recode_text(oth)
+    if (!is.na(new_val) && new_val %in% names(dict)) {
+      tokens[is_other] <- new_val
     }
+
+    # Drop duplicates, e.g. "a, other" where other matched "a"
+    paste(unique(tokens), collapse = collapse)
   }, character(1))
 }
